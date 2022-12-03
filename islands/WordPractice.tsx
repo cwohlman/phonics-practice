@@ -30,7 +30,9 @@ export default function WordPractice(props: PracticeProps) {
 let currentAudio: HTMLAudioElement | null = null;
 
 export function Silent(props: { letter: NoSay }) {
-  return <div>{props.letter.silent}</div>;
+  return <div
+  className={`inline-flex items-center rounded-m bg-white px-1 py-4 text-sm font-medium text-gray-700`}
+  >{props.letter.silent}</div>;
 }
 
 export function Sound(props: { letter: Letter }) {
@@ -43,7 +45,7 @@ export function Sound(props: { letter: Letter }) {
 
   return (
     <button
-      className={`inline-flex mx-1 items-center rounded-m bg-white px-5 py-4 text-4xl font-medium text-gray-700 hover:bg-gray-200`}
+      className={`inline-flex items-center rounded-m bg-white px-3 py-4 text-4xl font-medium text-gray-700 hover:bg-gray-200`}
       onClick={() => {
         if (currentAudio) {
           currentAudio.pause();
