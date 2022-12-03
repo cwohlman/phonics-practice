@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
-import { Alphabet, Letter } from "../components/alphabet.ts";
+import { alphabet, Alphabet, Letter } from "../components/alphabet.ts";
 
 interface LettersExamProps {
   alphabet: Alphabet;
@@ -30,11 +30,11 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
   const [wrongCount, setWrongCount] = useState(0);
 
   const onCorrect = useCallback(() => {
-    console.log({ wrongCount })
+    console.log({ wrongCount });
     if (wrongCount > 0) {
-      setScore(s => s / 2);
+      setScore((s) => s / 2);
     } else {
-      setScore(s => s + 100);
+      setScore((s) => s + 100);
     }
     const newSet = pickSet(alphabet);
     setSet(newSet);
@@ -43,7 +43,7 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
   }, [alphabet, wrongCount]);
 
   const onWrong = useCallback(() => {
-    console.log('wrong!')
+    console.log("wrong!");
     setWrongCount((i) => i + 1);
   }, []);
 
@@ -51,7 +51,11 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
 
   return (
     <div>
-      <Player key={current.letter} letter={current} score={score} />
+      <Player
+        key={current.letter}
+        letter={current}
+        score={wrongCount > 0 ? score / 2 : score}
+      />
       <div class="grid gap-2 w-full grid-cols-3">
         {set.map((m) => (
           <Answer
@@ -68,15 +72,18 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
   );
 }
 
-let currentAudio: HTMLAudioElement | null = null;
+let audioPlayers: { [key: string]: HTMLAudioElement } = {};
 
 export function Player(
   { letter, score }: { letter: Letter; score: number },
 ) {
   const audio = useRef<HTMLAudioElement>();
   useEffect(() => {
-    audio.current = new Audio(letter.slow);
-    return () => console.log("Cleanup!");
+    if (audioPlayers[letter.slow]) {
+      audio.current = audioPlayers[letter.slow]
+    } else {
+      audioPlayers[letter.slow] = audio.current = new Audio(letter.slow);
+    }
   }, []);
   useEffect(() => {
     console.log("play!", [!!audio.current, letter.letter]);
@@ -86,13 +93,25 @@ export function Player(
     }
   }, [!!audio.current, letter.letter]);
 
-  const scoreStyle = score == 0 ? "text-black" :
-    score < 50 ? "text-red-600 font-bold" :
-    score < 70 ? "text-red-900" :
-    score < 100 ? "text-yellow-900" :
-    score < 500 ? "text-green-900" :
-    score < 1000 ? "text-green-600" :
-    "text-green-900 bold"
+  const scoreStyle = score == 0
+    ? "text-black"
+    : score < 50
+    ? "text-red-600"
+    : score < 70
+    ? "text-red-900"
+    : score < 100
+    ? "text-yellow-900"
+    : score < 300
+    ? "text-green-900"
+    : score < 500
+    ? "text-green-800"
+    : score < 700
+    ? "text-green-700"
+    : score < 1000
+    ? "text-green-600"
+    : score < 2000
+    ? "text-blue-700"
+    : "text-blue-500";
 
   return (
     <div class="py-4 grid grid-cols-3">
@@ -102,8 +121,14 @@ export function Player(
       <div>
         <button
           className="block m-auto items-center rounded-md border border-gray-300 bg-white px-8 py-6 text-4xl font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          onClick={() => audio.current?.play()}
+          onClick={() => {
+            if (audio.current) {
+              audio.current.play();
+              audio.current.currentTime = 0;
+            }
+          }}
         >
+          {letter.letter}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -121,7 +146,12 @@ export function Player(
         </button>
       </div>
       <div class="flex px-5">
-        <div class={"text-lg m-auto mr-0 " + scoreStyle}>{score.toFixed(0)}</div>
+        <div class=" m-auto mr-0 ">
+          Score:{" "}
+          <span class={"text-lg font-bold " + scoreStyle}>
+            {score.toFixed(0)}
+          </span>
+        </div>
       </div>
     </div>
   );
