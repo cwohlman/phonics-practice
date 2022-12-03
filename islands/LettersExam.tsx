@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 import { alphabet, Alphabet, Letter } from "../components/alphabet.ts";
+import { asset } from "$fresh/runtime.ts";
 
 interface LettersExamProps {
   alphabet: Alphabet;
@@ -83,7 +84,7 @@ export function Player(
     if (audioPlayers[letter.slow]) {
       audio.current = audioPlayers[letter.slow]
     } else {
-      audioPlayers[letter.slow] = audio.current = new Audio(letter.slow);
+      audioPlayers[letter.slow] = audio.current = new Audio(asset(letter.slow));
     }
   }, []);
   useEffect(() => {
@@ -177,15 +178,10 @@ export function Answer(
     showRight: boolean;
   },
 ) {
-  const audio = useRef<HTMLAudioElement>();
-  useEffect(() => {
-    audio.current = new Audio(props.letter.slow);
-  });
-
   const [celebrate, setCelebrate] = useState(false);
   useEffect(() => {
     setCelebrate(false);
-  }, [props.letter])
+  }, [props.letter, props.correct])
 
   const serif = props.letter.letter == "I";
 
