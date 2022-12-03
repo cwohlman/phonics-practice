@@ -55,6 +55,7 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
         key={current.letter}
         letter={current}
         score={wrongCount > 0 ? score / 2 : score}
+        onGiveUp={() => setWrongCount(10)}
       />
       <div class="grid gap-2 w-full grid-cols-3">
         {set.map((m) => (
@@ -75,7 +76,7 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
 const audioPlayers: { [key: string]: HTMLAudioElement } = {};
 
 export function Player(
-  { letter, score }: { letter: Letter; score: number },
+  { letter, score, onGiveUp }: { letter: Letter; score: number, onGiveUp: () => void },
 ) {
   const audio = useRef<HTMLAudioElement>();
   useEffect(() => {
@@ -86,11 +87,13 @@ export function Player(
     }
   }, []);
   useEffect(() => {
-    console.log("play!", [!!audio.current, letter.letter]);
+    console.log("play!", letter.letter);
 
     if (letter && audio.current) {
       audio.current.play();
     }
+
+    return () => audio.current?.pause();
   }, [!!audio.current, letter.letter]);
 
   const scoreStyle = score == 0
@@ -116,7 +119,16 @@ export function Player(
   return (
     <div class="py-4 grid grid-cols-3">
       <div>
-        &nbsp;
+        <button
+          className="block m-auto ml-0 items-center rounded-md border-none border-gray-300 bg-white px-8 py-6 text-4xl font-medium text-gray-700  hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={() => onGiveUp()}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+</svg>
+
+        </button>
+        
       </div>
       <div>
         <button
@@ -170,12 +182,21 @@ export function Answer(
     audio.current = new Audio(props.letter.slow);
   });
 
+  const [celebrate, setCelebrate] = useState(false);
+  useEffect(() => {
+    setCelebrate(false);
+  }, [props.letter])
+
   const serif = props.letter.letter == "I";
 
   const [showWrong, setShowWrong] = useState(false);
   const animateWrong = () => {
     setShowWrong(true);
     props.onWrong();
+  };
+  const animateRight = () => {
+    setCelebrate(true);
+    setTimeout(props.onCorrect, 500);
   };
 
   useEffect(() => {
@@ -189,13 +210,13 @@ export function Answer(
       className={`inline-flex ${
         serif ? "font-serif" : ""
       } items-center rounded-md border border-gray-300 ${
-        isCorrect && props.showRight
+        (isCorrect && props.showRight) || celebrate
           ? "bg-green-400"
           : (showWrong ? "bg-red-400" : "bg-white hover:bg-gray-200")
       } px-10 py-8 text-6xl font-medium text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
       onClick={() => {
         if (isCorrect) {
-          props.onCorrect();
+          animateRight();
         } else {
           animateWrong();
         }
