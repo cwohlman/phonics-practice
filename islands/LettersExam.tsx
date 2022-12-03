@@ -72,7 +72,7 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
   );
 }
 
-let audioPlayers: { [key: string]: HTMLAudioElement } = {};
+const audioPlayers: { [key: string]: HTMLAudioElement } = {};
 
 export function Player(
   { letter, score }: { letter: Letter; score: number },
@@ -128,7 +128,6 @@ export function Player(
             }
           }}
         >
-          {letter.letter}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
