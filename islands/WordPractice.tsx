@@ -30,9 +30,13 @@ export default function WordPractice(props: PracticeProps) {
 let currentAudio: HTMLAudioElement | null = null;
 
 export function Silent(props: { letter: NoSay }) {
-  return <div
-  className={`inline-flex items-center rounded-m bg-white px-1 py-4 text-sm font-medium text-gray-700`}
-  >{props.letter.silent}</div>;
+  return (
+    <div
+      className={`inline-flex items-center rounded-m bg-white px-1 py-4 text-sm font-medium text-gray-700`}
+    >
+      {props.letter.silent}
+    </div>
+  );
 }
 
 export function Sound(props: { letter: Letter }) {
@@ -42,17 +46,18 @@ export function Sound(props: { letter: Letter }) {
   });
 
   const serif = props.letter.letter == "I";
+  const [error, setError] = useState<Error>();
 
   return (
     <button
-      className={`inline-flex items-center rounded-m bg-white px-3 py-4 text-4xl font-medium text-gray-700 hover:bg-gray-200`}
+      className={`inline-flex items-center rounded-m ${error ? "bg-red-300" : "bg-white"} px-3 py-4 text-4xl font-medium text-gray-700 hover:bg-gray-200`}
       onClick={() => {
         if (currentAudio) {
           currentAudio.pause();
           currentAudio.currentTime = 0;
         }
         currentAudio = audio.current || null;
-        audio.current?.play();
+        audio.current?.play().catch((e) => setError(e));
       }}
       onTouchStart={() => {
         if (currentAudio) {
@@ -71,6 +76,7 @@ export function Sound(props: { letter: Letter }) {
       }}
     >
       {props.letter.letter}
+      {error?.message}
     </button>
   );
 }
@@ -105,16 +111,20 @@ export function Word(props: { sound: string }) {
     audio.current = new Audio(props.sound);
   }, [props.sound]);
 
+  const [error, setError] = useState<Error>();
+
   return (
     <button
-      className={`ml-5 inline-flex items-center rounded-md border border-gray-300 bg-white px-8 py-6 text-4xl font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+      className={`ml-5 inline-flex items-center rounded-md border ${
+        error ? "border-red-800 bg-red-300" : "border-gray-300 bg-white hover:bg-gray-200"
+      } px-8 py-6 text-4xl font-medium text-gray-700 shadow-sm  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
       onClick={() => {
         if (currentAudio) {
           currentAudio.pause();
           currentAudio.currentTime = 0;
         }
         currentAudio = audio.current || null;
-        audio.current?.play();
+        audio.current?.play().catch((e) => setError(e));
       }}
     >
       <svg
@@ -131,6 +141,7 @@ export function Word(props: { sound: string }) {
           d="M19.114 5.636a9 9 0 010 12.728M16.463 8.288a5.25 5.25 0 010 7.424M6.75 8.25l4.72-4.72a.75.75 0 011.28.53v15.88a.75.75 0 01-1.28.53l-4.72-4.72H4.51c-.88 0-1.704-.507-1.938-1.354A9.01 9.01 0 012.25 12c0-.83.112-1.633.322-2.396C2.806 8.756 3.63 8.25 4.51 8.25H6.75z"
         />
       </svg>
+      {error?.message}
     </button>
   );
 }
