@@ -95,7 +95,7 @@ export function Player(
     }
 
     return () => audio.current?.pause();
-  }, [!!audio.current, letter.letter]);
+  }, [audio.current?.readyState == 4, letter.letter]);
 
   const scoreStyle = score == 0
     ? "text-black"
@@ -203,7 +203,7 @@ export function Answer(
 
   return (
     <button
-      className={`inline-flex ${
+      className={`inline-flex tracking-tight ${
         serif ? "font-serif" : ""
       } items-center rounded-md border border-gray-300 ${
         (isCorrect && props.showRight) || celebrate

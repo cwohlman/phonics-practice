@@ -1,7 +1,6 @@
 import { Head } from "$fresh/runtime.ts";
-import Practice from "../islands/Practice.tsx";
-import { alphabet } from "../components/alphabet.ts";
-import LettersExam from "../islands/LettersExam.tsx";
+import { dictionary } from "../components/dictionary.ts";
+import WordPractice from "../islands/WordPractice.tsx";
 
 export default function Home() {
   return (
@@ -10,8 +9,8 @@ export default function Home() {
         <title>Fresh App</title>
       </Head>
       <div class="p-4 mx-auto max-w-screen-xl">
-        <LettersExam
-          alphabet={alphabet}
+        <WordPractice
+          dictionary={dictionary}
         />
       </div>
     </>
