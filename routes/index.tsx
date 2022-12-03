@@ -10,7 +10,7 @@ export default function Home() {
         <title>Fresh App</title>
       </Head>
       <div class="p-4 mx-auto max-w-screen-xl">
-        <LettersExam
+        <Practice
           alphabet={alphabet}
         />
       </div>
