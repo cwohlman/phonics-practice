@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
 import { alphabet, Alphabet, Letter } from "../components/alphabet.ts";
 import { asset } from "$fresh/runtime.ts";
+import { UserScore } from "../components/scoring.ts";
 
 interface LettersExamProps {
   alphabet: Alphabet;
@@ -30,13 +31,19 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
 
   const [wrongCount, setWrongCount] = useState(0);
 
+  const scoreMachine = useMemo(() => new UserScore(), []);
+
   const onCorrect = useCallback(() => {
     console.log({ wrongCount });
-    if (wrongCount > 0) {
-      setScore((s) => s / 2);
+    if (wrongCount == 10) {
+      scoreMachine.applyResult(current, "hint");
+    } else if (wrongCount > 0) {
+      scoreMachine.applyResult(current, "fail");
     } else {
-      setScore((s) => s + 100);
+      scoreMachine.applyResult(current, "pass");
     }
+    setScore(scoreMachine.currentScore);
+
     const newSet = pickSet(alphabet);
     setSet(newSet);
     setCurrent(pickLetter(newSet));
@@ -99,21 +106,21 @@ export function Player(
 
   const scoreStyle = score == 0
     ? "text-black"
-    : score < 50
+    : score < 5
     ? "text-red-600"
-    : score < 70
+    : score < 10
     ? "text-red-900"
-    : score < 100
+    : score < 20
     ? "text-yellow-900"
-    : score < 300
+    : score < 30
     ? "text-green-900"
-    : score < 500
+    : score < 40
     ? "text-green-800"
-    : score < 700
+    : score < 50
     ? "text-green-700"
-    : score < 1000
+    : score < 75
     ? "text-green-600"
-    : score < 2000
+    : score < 100
     ? "text-blue-700"
     : "text-blue-500";
 
