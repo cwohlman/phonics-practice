@@ -33,10 +33,10 @@ export default function Sound(
   const playingClass = playing ? "text-red-500" : "hover:text-indigo-500";
   return (
     <div class={"flex flex-col mx-1 " + fontClass + " " + "text-8xl"}>
-      <div class="m-auto tracking-tight -mb-6">
+      <div class="m-auto tracking-tight">
         {letter.letter}
       </div>
-      <div class={"m-auto cursor-pointer -mb-6 " + playingClass} onClick={onPlay}>
+      <div class={"m-auto cursor-pointer h-8 leading-6 overflow-hidden " + playingClass} onClick={onPlay}>
         •
       </div>
     </div>
