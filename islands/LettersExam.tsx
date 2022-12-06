@@ -1,14 +1,19 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "preact/hooks";
-import { alphabet, Alphabet, Letter } from "../components/alphabet.ts";
+import {
+  MutableRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "preact/hooks";
+import { Alphabet, alphabet, Letter } from "../components/alphabet.ts";
 import { asset } from "$fresh/runtime.ts";
-import { UserScore } from "../components/scoring.ts";
+import { pickOption, UserScore } from "../components/scoring.ts";
+import { Word } from "../components/dictionary.ts";
+import { soundManager } from "../components/soundManager.ts";
 
 interface LettersExamProps {
   alphabet: Alphabet;
-}
-
-export function pickLetter(alphabet: Alphabet): Letter {
-  return alphabet[Math.floor(Math.random() * alphabet.length)];
 }
 
 export function pickSet(alphabet: Alphabet, size = 6): Alphabet {
@@ -27,7 +32,7 @@ export function pickSet(alphabet: Alphabet, size = 6): Alphabet {
 export default function LettersExam({ alphabet }: LettersExamProps) {
   const [set, setSet] = useState<Alphabet>(pickSet(alphabet));
 
-  const [current, setCurrent] = useState<Letter>(pickLetter(set));
+  const [current, setCurrent] = useState<Letter>(pickOption(set));
 
   const [wrongCount, setWrongCount] = useState(0);
 
@@ -46,7 +51,7 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
 
     const newSet = pickSet(alphabet);
     setSet(newSet);
-    setCurrent(pickLetter(newSet));
+    setCurrent(pickOption(newSet));
     setWrongCount(0);
   }, [alphabet, wrongCount]);
 
@@ -81,28 +86,19 @@ export default function LettersExam({ alphabet }: LettersExamProps) {
   );
 }
 
-const audioPlayers: { [key: string]: HTMLAudioElement } = {};
-
 export function Player(
-  { letter, score, onGiveUp }: { letter: Letter; score: number, onGiveUp: () => void },
+  { letter, score, onGiveUp, player }: {
+    letter: Letter | Word;
+    score: number;
+    onGiveUp: () => void;
+    player?: MutableRef<undefined | (() => void | Promise<void>)>;
+  },
 ) {
-  const audio = useRef<HTMLAudioElement>();
-  useEffect(() => {
-    if (audioPlayers[letter.slow]) {
-      audio.current = audioPlayers[letter.slow]
-    } else {
-      audioPlayers[letter.slow] = audio.current = new Audio(asset(letter.slow));
-    }
-  }, []);
-  useEffect(() => {
-    console.log("play!", letter.letter);
+  const audioFile = "audio" in letter ? letter.audio : letter.slow;
+  
+  soundManager.preload(audioFile);
 
-    if (letter && audio.current) {
-      audio.current.play();
-    }
-
-    return () => audio.current?.pause();
-  }, [audio.current?.readyState == 4, letter.letter]);
+  if (player) player.current = () => {soundManager.play(audioFile)};
 
   const scoreStyle = score == 0
     ? "text-black"
@@ -131,21 +127,27 @@ export function Player(
           className="block m-auto ml-0 items-center rounded-md border-none border-gray-300 bg-white px-8 py-6 text-4xl font-medium text-gray-700  hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => onGiveUp()}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-</svg>
-
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+            />
+          </svg>
         </button>
-        
       </div>
       <div>
         <button
           className="block m-auto items-center rounded-md border border-gray-300 bg-white px-8 py-6 text-4xl font-medium text-gray-700 shadow-sm hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => {
-            if (audio.current) {
-              audio.current.play();
-              audio.current.currentTime = 0;
-            }
+            soundManager.play(audioFile);
           }}
         >
           <svg
@@ -188,7 +190,7 @@ export function Answer(
   const [celebrate, setCelebrate] = useState(false);
   useEffect(() => {
     setCelebrate(false);
-  }, [props.letter, props.correct])
+  }, [props.letter, props.correct]);
 
   const serif = props.letter.letter == "I";
 

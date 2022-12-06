@@ -11,14 +11,15 @@ import * as $4 from "./routes/stories/sound-button.tsx";
 import * as $5 from "./routes/stories/sound-group-button.tsx";
 import * as $6 from "./routes/stories/sound-group.tsx";
 import * as $7 from "./routes/stories/sound.tsx";
-import * as $$0 from "./islands/Counter.tsx";
-import * as $$1 from "./islands/LetterPractice.tsx";
-import * as $$2 from "./islands/LettersExam.tsx";
-import * as $$3 from "./islands/SoundAnswerButtonsStory.tsx";
-import * as $$4 from "./islands/SoundGroupStory.tsx";
-import * as $$5 from "./islands/SoundStory.tsx";
-import * as $$6 from "./islands/WordAnswerButtonsStory.tsx";
-import * as $$7 from "./islands/WordPractice.tsx";
+import * as $$0 from "./islands/AutomaticLesson.tsx";
+import * as $$1 from "./islands/Counter.tsx";
+import * as $$2 from "./islands/LetterPractice.tsx";
+import * as $$3 from "./islands/LettersExam.tsx";
+import * as $$4 from "./islands/SoundAnswerButtonsStory.tsx";
+import * as $$5 from "./islands/SoundGroupStory.tsx";
+import * as $$6 from "./islands/SoundStory.tsx";
+import * as $$7 from "./islands/WordAnswerButtonsStory.tsx";
+import * as $$8 from "./islands/WordPractice.tsx";
 
 const manifest = {
   routes: {
@@ -32,14 +33,15 @@ const manifest = {
     "./routes/stories/sound.tsx": $7,
   },
   islands: {
-    "./islands/Counter.tsx": $$0,
-    "./islands/LetterPractice.tsx": $$1,
-    "./islands/LettersExam.tsx": $$2,
-    "./islands/SoundAnswerButtonsStory.tsx": $$3,
-    "./islands/SoundGroupStory.tsx": $$4,
-    "./islands/SoundStory.tsx": $$5,
-    "./islands/WordAnswerButtonsStory.tsx": $$6,
-    "./islands/WordPractice.tsx": $$7,
+    "./islands/AutomaticLesson.tsx": $$0,
+    "./islands/Counter.tsx": $$1,
+    "./islands/LetterPractice.tsx": $$2,
+    "./islands/LettersExam.tsx": $$3,
+    "./islands/SoundAnswerButtonsStory.tsx": $$4,
+    "./islands/SoundGroupStory.tsx": $$5,
+    "./islands/SoundStory.tsx": $$6,
+    "./islands/WordAnswerButtonsStory.tsx": $$7,
+    "./islands/WordPractice.tsx": $$8,
   },
   baseUrl: import.meta.url,
   config,

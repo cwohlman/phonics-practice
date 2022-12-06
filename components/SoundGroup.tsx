@@ -6,10 +6,12 @@ import Sound, { NoSaySound } from "./Sound.tsx";
 import { soundManager } from "./soundManager.ts";
 
 export default function SoundGroup(
-  { word, wordPlayer, soundPlayer }: {
+  { word, wordPlayer, soundPlayer, onDidPlay, onDidSoundOut }: {
     word: Word;
     wordPlayer?: MutableRef<undefined | (() => void | Promise<void>)>;
     soundPlayer?: MutableRef<undefined | (() => void | Promise<void>)>;
+    onDidPlay: () => void;
+    onDidSoundOut: () => void;
   },
 ) {
   const sounds = word.sounds;
@@ -18,6 +20,7 @@ export default function SoundGroup(
   const onPlay = async () => {
     const promise = soundManager.play(word.audio);
     setPlaying(true);
+    onDidPlay();
 
     await promise;
 
@@ -54,7 +57,7 @@ export default function SoundGroup(
         {sounds.map((letter, i) =>
           "silent" in letter
             ? <NoSaySound letter={letter} />
-            : <Sound letter={letter} player={getRef(i)} />
+            : <Sound letter={letter} player={getRef(i)} onDidPlay={onDidSoundOut} />
         )}
       </div>
       <div class={"py-1 mx-5 cursor-pointer mb-2 " + playingClass} onClick={onPlay}>

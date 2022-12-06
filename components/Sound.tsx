@@ -4,9 +4,10 @@ import { NoSay } from "./dictionary.ts";
 import { soundManager } from "./soundManager.ts";
 
 export default function Sound(
-  { letter, player }: {
+  { letter, player, onDidPlay }: {
     letter: Letter;
     player?: MutableRef<undefined | (() => void | Promise<void>)>;
+    onDidPlay: () => void;
   },
 ) {
   useEffect(() => soundManager.preload(letter.slow), [letter.slow]);
@@ -14,6 +15,7 @@ export default function Sound(
   const onPlay = async () => {
     const promise = soundManager.play(letter.slow);
     setPlaying(true);
+    onDidPlay();
 
     const result = await promise;
 
