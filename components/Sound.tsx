@@ -28,10 +28,11 @@ export default function Sound(
 
 
   const sizeClass = size == "letter" ? "p-4 text-8xl" : " p-2 text-xl";
+  const fontClass = letter.letter == "I" ? " font-sans" : "font-sans";
   const playingClass = playing ? "text-red-500" : "hover:text-indigo-500";
   return (
-    <div class={"flex flex-col " + sizeClass}>
-      <div class="m-auto tracking-tight -mb-8">
+    <div class={"flex flex-col " + fontClass + " " + sizeClass}>
+      <div class="m-auto tracking-tight -mb-6">
         {letter.letter}
       </div>
       <div class={"m-auto cursor-pointer " + playingClass} onClick={onPlay}>
