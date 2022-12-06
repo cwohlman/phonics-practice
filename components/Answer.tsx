@@ -7,7 +7,7 @@ export default function Answer({ subject }: { subject: Letter | Word }) {
   const playerRef = useRef<() => void | Promise<void>>()
 
   const Component = ("letter" in subject)
-    ? <Sound letter={subject} size="letter" player={playerRef} />
+    ? <Sound letter={subject} player={playerRef} />
     : <div>{subject.word}</div>;
 
   return (

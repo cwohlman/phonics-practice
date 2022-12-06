@@ -1,11 +1,11 @@
 import { MutableRef, useEffect, useState } from "preact/hooks";
 import { Letter } from "./alphabet.ts";
+import { NoSay } from "./dictionary.ts";
 import { soundManager } from "./soundManager.ts";
 
 export default function Sound(
-  { letter, size, player }: {
+  { letter, player }: {
     letter: Letter;
-    size: "letter" | "word" | "sentance";
     player?: MutableRef<undefined | (() => void | Promise<void>)>;
   },
 ) {
@@ -15,9 +15,11 @@ export default function Sound(
     const promise = soundManager.play(letter.slow);
     setPlaying(true);
 
-    await promise;
+    const result = await promise;
 
     setPlaying(false);
+
+    return result;
   };
 
   if (typeof player == "object") {
@@ -27,16 +29,30 @@ export default function Sound(
   const [playing, setPlaying] = useState(false);
 
 
-  const sizeClass = size == "letter" ? "p-4 text-8xl" : " p-2 text-xl";
   const fontClass = letter.letter == "I" ? " font-sans" : "font-sans";
   const playingClass = playing ? "text-red-500" : "hover:text-indigo-500";
   return (
-    <div class={"flex flex-col " + fontClass + " " + sizeClass}>
+    <div class={"flex flex-col " + fontClass + " " + "text-8xl"}>
       <div class="m-auto tracking-tight -mb-6">
         {letter.letter}
       </div>
-      <div class={"m-auto cursor-pointer " + playingClass} onClick={onPlay}>
+      <div class={"m-auto cursor-pointer -mb-6 " + playingClass} onClick={onPlay}>
         •
+      </div>
+    </div>
+  );
+}
+
+export function NoSaySound({ letter }: {
+  letter: NoSay;
+}) {
+  return (
+    <div class={"flex flex-col font-sans text-md"}>
+      <div class="m-auto tracking-tight -mb-6">
+        {letter.silent}
+      </div>
+      <div class={"m-auto"}>
+        &nbsp;
       </div>
     </div>
   );

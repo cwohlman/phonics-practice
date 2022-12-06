@@ -8,7 +8,7 @@ export default function SoundStory() {
   return (
     <>
       <MultiBox name="Single Sounds">
-        {alphabet.map(letter => <DemoItem><Sound letter={letter} size="letter" /></DemoItem>)}
+        {alphabet.map(letter => <DemoItem><Sound letter={letter} /></DemoItem>)}
       </MultiBox>
     </>
   );
