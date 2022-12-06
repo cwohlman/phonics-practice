@@ -1,4 +1,5 @@
 import ButtonStory from "./button.tsx";
+import SoundAnswerButtonsStory from "./sound-button.tsx";
 import SoundStory from "./sound.tsx";
 
 export default function Stories() {
@@ -6,6 +7,7 @@ export default function Stories() {
     <div>
       <ButtonStory />
       <SoundStory />
+      <SoundAnswerButtonsStory />
     </div>
   );
 }
