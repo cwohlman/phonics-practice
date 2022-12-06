@@ -2,21 +2,32 @@ import { useRef } from "preact/hooks";
 import { Letter } from "./alphabet.ts";
 import { Word } from "./dictionary.ts";
 import Sound from "./Sound.tsx";
+import SoundGroup from "./SoundGroup.tsx";
 
 export default function Answer({ subject }: { subject: Letter | Word }) {
-  const playerRef = useRef<() => void | Promise<void>>()
+  const soundOutRef = useRef<() => void | Promise<void>>();
+  const wordPlayerRef = useRef<() => void | Promise<void>>();
 
   const Component = ("letter" in subject)
-    ? <Sound letter={subject} player={playerRef} />
-    : <div>{subject.word}</div>;
+    ? <Sound letter={subject} player={soundOutRef} />
+    : (
+      <SoundGroup
+        word={subject}
+        soundPlayer={soundOutRef}
+        wordPlayer={wordPlayerRef}
+      />
+    );
 
   return (
     <div class="m-5 border border-gray-200 rounded shadow flex flex-col min-w-[200px]">
-      <div>
+      <div class="m-auto">
         {Component}
       </div>
       <div class="flex justify-stretch">
-        <button class="border border-gray-200 border-b-0 border-l-0 p-3 flex-1 text-center hover:text-indigo-500 hover:bg-indigo-100" onClick={() => playerRef.current ? playerRef.current() : null}>
+        <button
+          class="border border-gray-200 border-b-0 border-l-0 p-3 flex-1 text-center hover:text-indigo-500 hover:bg-indigo-100"
+          onClick={() => soundOutRef.current ? soundOutRef.current() : null}
+        >
           <svg
             width="24"
             height="24"
@@ -34,7 +45,30 @@ export default function Answer({ subject }: { subject: Letter | Word }) {
             </g>
           </svg>
         </button>
-        {/* TODO: Whole Word Button */}
+        {"word" in subject
+          ? (
+            <button
+              class="border border-gray-200 border-b-0 border-l-0 p-3 flex-1 justify-center hover:text-indigo-500 hover:bg-indigo-100"
+              onClick={() =>
+                wordPlayerRef.current ? wordPlayerRef.current() : null}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 m-auto"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </button>
+          )
+          : null}
       </div>
     </div>
   );

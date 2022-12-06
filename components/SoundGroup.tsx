@@ -1,4 +1,4 @@
-import { MutableRef, useEffect, useState } from "preact/hooks";
+import { MutableRef, useEffect, useRef, useState } from "preact/hooks";
 
 import { Letter } from "./alphabet.ts";
 import { Word } from "./dictionary.ts";
@@ -25,7 +25,9 @@ export default function SoundGroup(
   };
 
   const onSoundOut = async () => {
-    // TODO;
+    for (const ref of refs.current) {
+      if (ref?.current) await ref.current();
+    }
   };
 
   if (typeof wordPlayer == "object") {
@@ -38,14 +40,21 @@ export default function SoundGroup(
 
   const [playing, setPlaying] = useState(false);
 
+  const refs = useRef<(MutableRef<(() => void | Promise<void>) | undefined> | undefined)[]>([])
+  const getRef = (i: number) => {
+    if (! refs.current[i]) refs.current[i] = { current: undefined }
+    
+    return refs.current[i];
+  }
+
   const playingClass = playing ? "text-red-500" : "hover:text-indigo-500"
   return (
     <div class="flex flex-col">
       <div class="flex mx-5">
-        {sounds.map((letter) =>
+        {sounds.map((letter, i) =>
           "silent" in letter
             ? <NoSaySound letter={letter} />
-            : <Sound letter={letter} />
+            : <Sound letter={letter} player={getRef(i)} />
         )}
       </div>
       <div class={"py-1 mx-5 cursor-pointer " + playingClass} onClick={onPlay}>

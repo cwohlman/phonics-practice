@@ -5,7 +5,7 @@ import { DemoItem, MultiBox } from "../components/Demobox.tsx";
 export default function SoundAnswerButtonsStory() {
   return (
     <>
-      <MultiBox name="Single Sounds">
+      <MultiBox name="Sound Buttons">
         {alphabet.map(letter => <DemoItem><Answer subject={letter} /></DemoItem>)}
       </MultiBox>
     </>

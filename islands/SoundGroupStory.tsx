@@ -5,7 +5,7 @@ import { dictionary, l } from "../components/dictionary.ts";import SoundGroup fr
 export default function SoundStory() {
   return (
     <>
-      <MultiBox name="Single Sounds">
+      <MultiBox name="Words">
         {dictionary.map(word => <DemoItem><SoundGroup word={word} /></DemoItem>)}
       </MultiBox>
     </>
