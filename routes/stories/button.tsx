@@ -1,8 +1,7 @@
-import { Head } from "$fresh/runtime.ts";
 import { Button } from "../../components/Button.tsx";
 import DemoBox from "../../components/Demobox.tsx";
 
-export default function Home() {
+export default function ButtonStory() {
   return (
     <>
       <DemoBox name="Hello World">
