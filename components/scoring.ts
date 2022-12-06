@@ -1,27 +1,27 @@
 import { Letter } from "./alphabet.ts";
 import { Word } from "./dictionary.ts";
 
-
-export type Test = { practice: Letter | Word } | { test: Letter | Word }
-export type Result = "pass" | "hint" | "practice" | "fail"
+export type Test = { practice: Letter | Word } | { test: Letter | Word };
+export type Result = "pass" | "hint" | "practice" | "fail";
 
 export class UserScore {
   letterScores: {
-    [phonetic: string]: Result[]
-  } = {}
+    [phonetic: string]: Result[];
+  } = {};
   wordScores: {
-    [word: string]: Result[]
-  } = {}  
-currentScore: number = 0;
+    [word: string]: Result[];
+  } = {};
+  currentScore = 0;
 
   applyResult(
     subject: Letter | Word,
-    result: Result
+    result: Result,
   ) {
-    if ('phonetic' in subject) {
-      this.letterScores[subject.phonetic] = this.letterScores[subject.phonetic] || [];
+    if ("phonetic" in subject) {
+      this.letterScores[subject.phonetic] =
+        this.letterScores[subject.phonetic] || [];
       this.letterScores[subject.phonetic].push(result);
-    } else if ('word' in subject) {
+    } else if ("word" in subject) {
       this.letterScores[subject.word] = this.letterScores[subject.word] || [];
       this.letterScores[subject.word].push(result);
     }
@@ -30,7 +30,8 @@ currentScore: number = 0;
   }
 
   recomputeScore() {
-    const letterScores = Object.values(this.letterScores).map(computeScore).reduce((m, a) => m + a, 0);
+    const letterScores = Object.values(this.letterScores).map(computeScore)
+      .reduce((m, a) => m + a, 0);
     const wordScores = Object.keys(this.wordScores).map((word) => {
       const results = this.wordScores[word];
       const baseScore = computeScore(results);
@@ -49,5 +50,8 @@ export function computeScore(results: Result[]): number {
   // 2 points for every pass
   // 1 point for every non-fail
 
-  return subset.reduce((m, a) => (a == "pass" ? 2 : a == "fail" ? 0 : 1) + m, 0);
+  return subset.reduce(
+    (m, a) => (a == "pass" ? 2 : a == "fail" ? 0 : 1) + m,
+    0,
+  );
 }
