@@ -1,5 +1,4 @@
 import { Head } from "$fresh/runtime.ts";
-import Practice from "../islands/Practice.tsx";
 import { alphabet } from "../components/alphabet.ts";
 import LettersExam from "../islands/LettersExam.tsx";
 
