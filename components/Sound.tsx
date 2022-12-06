@@ -38,7 +38,10 @@ export default function Sound(
       <div class="m-auto tracking-tight">
         {letter.letter}
       </div>
-      <div class={"m-auto cursor-pointer h-8 leading-6 overflow-hidden " + playingClass} onClick={onPlay}>
+      <div class={"m-auto cursor-pointer h-8 leading-6 overflow-hidden " + playingClass} onClick={(e) => {
+        e.preventDefault();
+        onPlay();
+      }}>
         •
       </div>
     </div>
