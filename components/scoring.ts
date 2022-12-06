@@ -10,7 +10,7 @@ export type Lesson = { practice: Letter[] | Word[] } | {
 
 export class UserScore {
   letterScores: {
-    [phonetic: string]: Result[];
+    [letter: string]: Result[];
   } = {};
   wordScores: {
     [word: string]: Result[];
@@ -19,7 +19,7 @@ export class UserScore {
   lessonNumber = 0;
 
   applyLessonResult(lesson: Lesson, result: Result) {
-    if ('question' in lesson) {
+    if ("question" in lesson) {
       this.applyResult(lesson.question, result);
     }
 
@@ -31,9 +31,9 @@ export class UserScore {
     result: Result,
   ) {
     if ("phonetic" in subject) {
-      this.letterScores[subject.phonetic] =
-        this.letterScores[subject.phonetic] || [];
-      this.letterScores[subject.phonetic].push(result);
+      this.letterScores[subject.letter] =
+        this.letterScores[subject.letter] || [];
+      this.letterScores[subject.letter].push(result);
     } else if ("word" in subject) {
       this.letterScores[subject.word] = this.letterScores[subject.word] || [];
       this.letterScores[subject.word].push(result);
@@ -63,6 +63,8 @@ export class UserScore {
   }
 
   chooseLesson(): Lesson {
+    this.lessonNumber++;
+
     // While fewer than 4 letters are learned practice letters.
 
     if (this.countLettersWithPassingScore(5) < 4) {
@@ -91,33 +93,51 @@ export class UserScore {
     const selectedSet: Letter[] = [];
     const sourceSet = [...alphabet];
 
-    while (selectedSet.length < optionsCount) {
-      const index = Math.floor(Math.random() * selectedSet.length);
-      const letter = sourceSet[index];
-      if (Math.random() * 5 > computeScore(this.letterScores[letter.letter])) {
-        sourceSet.splice(index, 1);
+    for (let i = 0; i < sourceSet.length; i++ ){
+      const letter = sourceSet[i];
+      const score = computeScore(this.letterScores[letter.letter]);
+
+      if (score <= 5) {
+        sourceSet.splice(i, 1);
         selectedSet.push(letter);
       }
+
+      if (selectedSet.length >= optionsCount) break;
+    }
+
+    while (selectedSet.length < optionsCount && sourceSet.length) {
+      const index = Math.floor(Math.random() * sourceSet.length);
+      const letter = sourceSet[index];
+      sourceSet.splice(index, 1);
+      selectedSet.push(letter);
     }
 
     return {
-      options: selectedSet,
+      options: shuffle(selectedSet),
       question: pickOption(selectedSet),
     };
   }
 
+  getWordsWithLearnedLetters() {
+    return dictionary.filter((word) =>
+      word.sounds.every((sound) =>
+        "silent" in sound || computeScore(this.letterScores[sound.letter]) >= 4
+      )
+    );
+  }
+
   getWordsLesson(optionsCount = 6): Lesson {
     const selectedSet: Word[] = [];
-    const sourceSet = [...dictionary];
+    const sourceSet = [...this.getWordsWithLearnedLetters()];
 
-    while (selectedSet.length < optionsCount) {
-      const index = Math.floor(Math.random() * selectedSet.length);
+    while (selectedSet.length < optionsCount && sourceSet.length) {
+      const index = Math.floor(Math.random() * sourceSet.length);
       const word = sourceSet[index];
-      if (Math.random() * 5 > computeScore(this.wordScores[word.word])) {
-        sourceSet.splice(index, 1);
-        selectedSet.push(word);
-      }
+      sourceSet.splice(index, 1);
+      selectedSet.push(word);
     }
+
+    if (! selectedSet.length) return this.getLettersLesson();
 
     return {
       options: selectedSet,
@@ -127,7 +147,7 @@ export class UserScore {
 }
 
 export function computeScore(results: Result[]): number {
-  if (! results) return 0;
+  if (!results) return 0;
 
   const subset = results.slice(-5);
 
@@ -142,4 +162,17 @@ export function computeScore(results: Result[]): number {
 
 export function pickOption<T>(alphabet: T[]): T {
   return alphabet[Math.floor(Math.random() * alphabet.length)];
+}
+
+export function shuffle<T>(set: T[]): T[] {
+  const source = [...set];
+  const shuffled: T[] = [];
+
+  while (source.length > 0) {
+    const index = Math.floor(Math.random() * source.length);
+
+    shuffled.push(...source.splice(index, 1));
+  }
+
+  return shuffled;
 }
