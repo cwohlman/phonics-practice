@@ -1,12 +1,3 @@
-import { Button } from "../../components/Button.tsx";
-import DemoBox from "../../components/Demobox.tsx";
+import SoundStory from "../../islands/SoundStory.tsx";
 
-export default function SoundStory() {
-  return (
-    <>
-      <DemoBox name="Hello World">
-        <Button>Hello</Button>
-      </DemoBox>
-    </>
-  );
-}
+export default SoundStory;

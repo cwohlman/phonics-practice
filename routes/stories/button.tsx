@@ -1,5 +1,5 @@
 import { Button } from "../../components/Button.tsx";
-import DemoBox from "../../components/Demobox.tsx";
+import {DemoBox} from "../../components/Demobox.tsx";
 
 export default function ButtonStory() {
   return (

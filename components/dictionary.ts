@@ -15,11 +15,11 @@ function error<T>(message: string): T {
   throw new Error(message);
 }
 
-function s(silent: string): NoSay {
+export function s(silent: string): NoSay {
   return { silent };
 }
 
-function l(letter: string): Letter {
+export function l(letter: string): Letter {
   return alphabet.find(a => a.letter == letter) || error("Not found")
 }
 

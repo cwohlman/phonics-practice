@@ -11,7 +11,8 @@ import * as $4 from "./routes/stories/sound.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/LetterPractice.tsx";
 import * as $$2 from "./islands/LettersExam.tsx";
-import * as $$3 from "./islands/WordPractice.tsx";
+import * as $$3 from "./islands/SoundStory.tsx";
+import * as $$4 from "./islands/WordPractice.tsx";
 
 const manifest = {
   routes: {
@@ -25,7 +26,8 @@ const manifest = {
     "./islands/Counter.tsx": $$0,
     "./islands/LetterPractice.tsx": $$1,
     "./islands/LettersExam.tsx": $$2,
-    "./islands/WordPractice.tsx": $$3,
+    "./islands/SoundStory.tsx": $$3,
+    "./islands/WordPractice.tsx": $$4,
   },
   baseUrl: import.meta.url,
   config,
