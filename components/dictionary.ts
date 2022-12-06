@@ -224,7 +224,7 @@ export const dictionary: Dictionary = [
   },
   {
     word: "reed",
-    sounds: [l("r"), l("ē"), s("ē"), l("d")],
+    sounds: [l("r"), l("ē"), l("ē"), l("d")],
     audio: "read.m4a",
     picture: "reed.png",
   },
