@@ -103,12 +103,6 @@ export const dictionary: Dictionary = [
     picture: "not.png",
   },
   {
-    word: "sit",
-    sounds: [l("s"), l("i"), l("t")],
-    audio: "sit.m4a",
-    picture: "sit.png",
-  },
-  {
     word: "sat",
     sounds: [l("s"), l("a"), l("t")],
     audio: "sat.m4a",
@@ -213,7 +207,7 @@ export const dictionary: Dictionary = [
   {
     word: "meet",
     sounds: [l("m"), l("ē"), l("ē"), l("t")],
-    audio: "meet.m4a",
+    audio: "meat.m4a",
     picture: "meet.png",
   },
   {
@@ -227,6 +221,12 @@ export const dictionary: Dictionary = [
     sounds: [l("r"), l("ē"), s("a"), l("d")],
     audio: "read.m4a",
     picture: "read.png",
+  },
+  {
+    word: "reed",
+    sounds: [l("r"), l("ē"), s("ē"), l("d")],
+    audio: "read.m4a",
+    picture: "reed.png",
   },
   {
     word: "mad",
@@ -335,12 +335,6 @@ export const dictionary: Dictionary = [
     sounds: [l("r"), l("u"), l("n")],
     audio: "run.m4a",
     picture: "run.png",
-  },
-  {
-    word: "rod",
-    sounds: [l("r"), l("o"), l("d")],
-    audio: "rod.m4a",
-    picture: "rod.png",
   },
   {
     word: "sun",
