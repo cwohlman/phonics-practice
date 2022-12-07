@@ -1,5 +1,5 @@
 import { options } from "https://esm.sh/v95/preact@10.11.0/src/index.d.ts";
-import { useMemo, useState } from "preact/hooks";
+import { StateUpdater, useMemo, useState } from "preact/hooks";
 import { Letter } from "../components/alphabet.ts";
 import Answer from "../components/Answer.tsx";
 import { Word } from "../components/dictionary.ts";
@@ -61,21 +61,7 @@ export default function AutomaticLesson() {
       }
     }
     return (
-      <div>
-        <Player
-          key={'slow' in lesson.question ? lesson.question.slow : lesson.question.audio}
-          letter={lesson.question}
-          score={progress.currentScore}
-          onGiveUp={() => setDidGiveUp(true)}
-        />
-        <div class="grid gap-2 w-full grid-cols-3">
-          {lesson.options.map((option, i) => (
-            <Answer key={i} subject={option} onAnswer={() => {
-              onAnswer(option)
-            }} onGiveUp={() => onGiveUp(option)} onPractice={() => onPractice(option)} showWrong={failedAttempts.includes(option)} />
-          ))}
-        </div>
-      </div>
+      LessonLayout(lesson, progress, setDidGiveUp, onAnswer, onGiveUp, onPractice, failedAttempts)
     );
   }
 
@@ -86,4 +72,21 @@ export default function AutomaticLesson() {
       </div>
     </div>
   );
+}
+
+export function LessonLayout(lesson: { question: Letter; options: Letter[]; } | { question: Word; options: Word[]; }, progress: UserScore, setDidGiveUp: StateUpdater<boolean>, onAnswer: (choice: Letter | Word) => void, onGiveUp: (subject: Word | Letter) => void, onPractice: (subject: Word | Letter) => void, failedAttempts: (Letter | Word)[]) {
+  return <div>
+    <Player
+      key={'slow' in lesson.question ? lesson.question.slow : lesson.question.audio}
+      letter={lesson.question}
+      score={progress.currentScore}
+      onGiveUp={() => setDidGiveUp(true)} />
+    <div class="grid gap-2 w-full grid-cols-3">
+      {lesson.options.map((option, i) => (
+        <Answer key={i} subject={option} onAnswer={() => {
+          onAnswer(option);
+        } } onGiveUp={() => onGiveUp(option)} onPractice={() => onPractice(option)} showWrong={failedAttempts.includes(option)} />
+      ))}
+    </div>
+  </div>;
 }

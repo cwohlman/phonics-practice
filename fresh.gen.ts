@@ -7,19 +7,21 @@ import * as $0 from "./routes/api/joke.ts";
 import * as $1 from "./routes/index.tsx";
 import * as $2 from "./routes/stories/button.tsx";
 import * as $3 from "./routes/stories/index.tsx";
-import * as $4 from "./routes/stories/sound-button.tsx";
-import * as $5 from "./routes/stories/sound-group-button.tsx";
-import * as $6 from "./routes/stories/sound-group.tsx";
-import * as $7 from "./routes/stories/sound.tsx";
+import * as $4 from "./routes/stories/lesson.tsx";
+import * as $5 from "./routes/stories/sound-button.tsx";
+import * as $6 from "./routes/stories/sound-group-button.tsx";
+import * as $7 from "./routes/stories/sound-group.tsx";
+import * as $8 from "./routes/stories/sound.tsx";
 import * as $$0 from "./islands/AutomaticLesson.tsx";
 import * as $$1 from "./islands/Counter.tsx";
-import * as $$2 from "./islands/LetterPractice.tsx";
-import * as $$3 from "./islands/LettersExam.tsx";
-import * as $$4 from "./islands/SoundAnswerButtonsStory.tsx";
-import * as $$5 from "./islands/SoundGroupStory.tsx";
-import * as $$6 from "./islands/SoundStory.tsx";
-import * as $$7 from "./islands/WordAnswerButtonsStory.tsx";
-import * as $$8 from "./islands/WordPractice.tsx";
+import * as $$2 from "./islands/LessonLayoutStory.tsx";
+import * as $$3 from "./islands/LetterPractice.tsx";
+import * as $$4 from "./islands/LettersExam.tsx";
+import * as $$5 from "./islands/SoundAnswerButtonsStory.tsx";
+import * as $$6 from "./islands/SoundGroupStory.tsx";
+import * as $$7 from "./islands/SoundStory.tsx";
+import * as $$8 from "./islands/WordAnswerButtonsStory.tsx";
+import * as $$9 from "./islands/WordPractice.tsx";
 
 const manifest = {
   routes: {
@@ -27,21 +29,23 @@ const manifest = {
     "./routes/index.tsx": $1,
     "./routes/stories/button.tsx": $2,
     "./routes/stories/index.tsx": $3,
-    "./routes/stories/sound-button.tsx": $4,
-    "./routes/stories/sound-group-button.tsx": $5,
-    "./routes/stories/sound-group.tsx": $6,
-    "./routes/stories/sound.tsx": $7,
+    "./routes/stories/lesson.tsx": $4,
+    "./routes/stories/sound-button.tsx": $5,
+    "./routes/stories/sound-group-button.tsx": $6,
+    "./routes/stories/sound-group.tsx": $7,
+    "./routes/stories/sound.tsx": $8,
   },
   islands: {
     "./islands/AutomaticLesson.tsx": $$0,
     "./islands/Counter.tsx": $$1,
-    "./islands/LetterPractice.tsx": $$2,
-    "./islands/LettersExam.tsx": $$3,
-    "./islands/SoundAnswerButtonsStory.tsx": $$4,
-    "./islands/SoundGroupStory.tsx": $$5,
-    "./islands/SoundStory.tsx": $$6,
-    "./islands/WordAnswerButtonsStory.tsx": $$7,
-    "./islands/WordPractice.tsx": $$8,
+    "./islands/LessonLayoutStory.tsx": $$2,
+    "./islands/LetterPractice.tsx": $$3,
+    "./islands/LettersExam.tsx": $$4,
+    "./islands/SoundAnswerButtonsStory.tsx": $$5,
+    "./islands/SoundGroupStory.tsx": $$6,
+    "./islands/SoundStory.tsx": $$7,
+    "./islands/WordAnswerButtonsStory.tsx": $$8,
+    "./islands/WordPractice.tsx": $$9,
   },
   baseUrl: import.meta.url,
   config,

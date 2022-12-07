@@ -1,3 +1,4 @@
+import LessonLayoutStory from "../../islands/LessonLayoutStory.tsx";
 import ButtonStory from "./button.tsx";
 import SoundAnswerButtonsStory from "./sound-button.tsx";
 import WordAnswerButtonsStory from "./sound-group-button.tsx";
@@ -12,6 +13,7 @@ export default function Stories() {
       <SoundAnswerButtonsStory />
       <SoundGroupStory />
       <WordAnswerButtonsStory />
+      <LessonLayoutStory />
     </div>
   );
 }

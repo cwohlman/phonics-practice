@@ -30,7 +30,7 @@ export default function Answer(
 
   return (
     <div
-      class={(showWrong ? "border-red-500 bg-red-100" : "border-gray-200") + " m-5 border  rounded shadow flex flex-col min-w-[200px] cursor-pointer"}
+      class={(showWrong ? "border-red-500 bg-red-100" : "border-gray-200") + " m-5 border  rounded shadow flex flex-col cursor-pointer"}
       onClick={(e) => {
         if (!e.defaultPrevented) onAnswer();
       }}

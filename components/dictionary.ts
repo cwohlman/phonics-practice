@@ -74,7 +74,7 @@ export const dictionary: Dictionary = [
   },
   {
     word: "no",
-    sounds: [l("n"), l("o")],
+    sounds: [l("n"), l("ō")],
     audio: "no.m4a",
     picture: "no.png",
   },
@@ -296,7 +296,7 @@ export const dictionary: Dictionary = [
   },
   {
     word: "rock",
-    sounds: [l("s"), l("o"), l("c"), s("k")],
+    sounds: [l("r"), l("o"), l("c"), s("k")],
     audio: "rock.m4a",
     picture: "rock.png",
   },
