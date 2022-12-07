@@ -34,7 +34,7 @@ export default function Sound(
   const fontClass = letter.letter == "I" ? " font-sans" : "font-sans";
   const playingClass = playing ? "text-red-500" : "hover:text-indigo-500";
   return (
-    <div class={"flex flex-col mx-1 " + fontClass + " " + "text-4xl lg:text-8xl"}>
+    <div class={"flex flex-col mx-1 " + fontClass + " " + "text-3xl lg:text-8xl"}>
       <div class="m-auto tracking-tight">
         {letter.letter}
       </div>
@@ -52,9 +52,9 @@ export function NoSaySound({ letter }: {
   letter: NoSay;
 }) {
   return (
-    <div class={"flex flex-col font-sans text-4xl lg:text-8xl mx-1"}>
+    <div class={"flex flex-col font-sans text-3xl lg:text-8xl mx-1"}>
       <div class="m-auto tracking-tight ">
-      <span class="text-lg lg:text-4xl">{letter.silent}</span>
+      <span class="text-lg lg:text-3xl">{letter.silent}</span>
       </div>
       <div class={"m-auto h-8 leading-6"}>
         &nbsp;

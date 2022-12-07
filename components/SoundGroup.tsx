@@ -60,7 +60,7 @@ export default function SoundGroup(
             : <Sound letter={letter} player={getRef(i)} onDidPlay={onDidSoundOut} />
         )}
       </div>
-      <div class={"py-1 mx-5 cursor-pointer mb-2 " + playingClass} onClick={onPlay}>
+      {/* <div class={"py-1 mx-5 cursor-pointer mb-2 " + playingClass} onClick={onPlay}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -76,7 +76,7 @@ export default function SoundGroup(
             d="M97.25 3.25L101 12m0 0l-3.75 8.75M101 12H3"
           />
         </svg>
-      </div>
+      </div> */}
     </div>
   );
 }
